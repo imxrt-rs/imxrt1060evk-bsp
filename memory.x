@@ -1,0 +1,7 @@
+MEMORY
+{
+    ITCM    (rwx): ORIGIN = 0x00000000, LENGTH = 512K
+    DTCM    (rwx): ORIGIN = 0x20000000, LENGTH = 512K
+    RAM     (rwx): ORIGIN = 0x20200000, LENGTH = 512K
+    FLASH   (rwx): ORIGIN = 0x60000000, LENGTH = 8M 
+}

@@ -1,0 +1,24 @@
+[package]
+name = "imxrt1060evk-bsp"
+version = "0.1.0"
+authors = ["Tom Burdick <tom.burdick@electromatic.us>", "Ian McIntyre <ianpmcintyre@gmail.com>"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/imxrt-rt/imxrt1060evk-bsp"
+description = """
+Rust-based BSP for NXP's MIMXRT1060-EVK.
+Part of the imxrt-rs project.
+"""
+
+[dependencies]
+cortex-m = "0.6.1"
+imxrt-ral = { version = "0.1.0" , features = ["imxrt1062"], path = "../imxrt/imxrt-ral" }
+imxrt-rt = { version = "0.1.0", path = "../imxrt-rt" }
+log = "0.4.8"
+
+[build-dependencies]
+imxrt-boot-gen = { version = "0.1.0", path = "../imxrt-boot-gen", features = ["imxrt1062"] }
+
+[lib]
+bench = false
+test = false
