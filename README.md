@@ -2,9 +2,8 @@
 
 Provides the needed setup to create applications on the 1060 evaluation kit.
 
-**Note this is in progress and does not fully work yet, there are still linker
-and runtime initialization issues being debugged. The program does not copy
-itself to TCM (addressed at 0x0) as expected**
+**Note these examples do not run yet for various reasons. Currently 
+the clocking of GPIO isn't setup for blinky**
 
 ## Examples
 
