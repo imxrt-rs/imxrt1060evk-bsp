@@ -11,8 +11,10 @@ fn toggle_pin_9(gpio: &gpio::RegisterBlock) {
     write_reg!(gpio, gpio, DR_TOGGLE, 1<<9);
 }
 
+
 #[entry]
 fn main() -> ! {
+    //TODO  Enable some clocks (eq to SDKs CLOCK_Enable(gpio1)) to make this work
     let gpio1 = gpio::GPIO1::take().unwrap();
     write_reg!(gpio, gpio1, GDIR, 1<<9);
     loop {
