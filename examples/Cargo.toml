@@ -13,12 +13,23 @@ embedded-hal = "0.2.3"
 log = { version = "0.4.8", features = ["release_max_level_info"] }
 nb = "0.1.2"
 panic-halt = "0.2.0"
-
 imxrt1060evk-bsp = { version = "0.1.0", path = ".." }
 
 [[bin]]
-name = "led_blinky"
-path = "src/led_blinky.rs"
+name = "led"
+path = "src/led.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "pit"
+path = "src/pit.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "timer"
+path = "src/timer.rs"
 test = false
 bench = false
 
