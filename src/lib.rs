@@ -88,7 +88,7 @@ pub use imxrt_rt  as rt;
 pub use imxrt_ral as ral;
 pub use imxrt_hal as hal;
 
-pub type LED = hal::gpio::GPIO1IO09<hal::gpio::GPIO6, hal::gpio::Output>;
+pub type LED = hal::gpio::GPIO1IO09<hal::gpio::GPIO1, hal::gpio::Output>;
 
 pub use hal::ccm::CCM;
 
@@ -96,26 +96,26 @@ pub use hal::ccm::CCM;
 ///
 /// Pin 13 can be used for several things; one common usage is for the on-board LED.
 pub struct Pins {
-    pub d0: hal::iomuxc::gpio::GPIO_AD_B1_07<hal::iomuxc::Alt5>,
-    pub d1: hal::iomuxc::gpio::GPIO_AD_B1_06<hal::iomuxc::Alt5>,
-    pub d2: hal::iomuxc::gpio::GPIO_AD_B0_11<hal::iomuxc::Alt5>,
-    pub d3: hal::iomuxc::gpio::GPIO_AD_B1_08<hal::iomuxc::Alt5>,
-    pub d4: hal::iomuxc::gpio::GPIO_AD_B0_09<hal::iomuxc::Alt5>,
-    pub d5: hal::iomuxc::gpio::GPIO_AD_B0_10<hal::iomuxc::Alt5>,
-    pub d6: hal::iomuxc::gpio::GPIO_AD_B1_02<hal::iomuxc::Alt5>,
-    pub d7: hal::iomuxc::gpio::GPIO_AD_B1_03<hal::iomuxc::Alt5>,
-    pub d8: hal::iomuxc::gpio::GPIO_AD_B0_03<hal::iomuxc::Alt5>,
-    pub d9: hal::iomuxc::gpio::GPIO_AD_B0_02<hal::iomuxc::Alt5>,
-    pub d10: hal::iomuxc::gpio::GPIO_SD_B0_01<hal::iomuxc::Alt5>,
-    pub d11: hal::iomuxc::gpio::GPIO_SD_B0_02<hal::iomuxc::Alt5>,
-    pub d12: hal::iomuxc::gpio::GPIO_SD_B0_03<hal::iomuxc::Alt5>,
-    pub d13: hal::iomuxc::gpio::GPIO_SD_B0_00<hal::iomuxc::Alt5>,
-    pub d14: hal::iomuxc::gpio::GPIO_AD_B1_01<hal::iomuxc::Alt5>,
-    pub d15: hal::iomuxc::gpio::GPIO_AD_B1_00<hal::iomuxc::Alt5>,
-    pub a0: hal::iomuxc::gpio::GPIO_AD_B1_10<hal::iomuxc::Alt5>,
-    pub a1: hal::iomuxc::gpio::GPIO_AD_B1_11<hal::iomuxc::Alt5>,
-    pub a2: hal::iomuxc::gpio::GPIO_AD_B1_04<hal::iomuxc::Alt5>,
-    pub a3: hal::iomuxc::gpio::GPIO_AD_B1_05<hal::iomuxc::Alt5>,
+    pub d0: hal::iomuxc::gpio::GPIO_AD_B1_07<hal::iomuxc::Alt0>,
+    pub d1: hal::iomuxc::gpio::GPIO_AD_B1_06<hal::iomuxc::Alt0>,
+    pub d2: hal::iomuxc::gpio::GPIO_AD_B0_11<hal::iomuxc::Alt0>,
+    pub d3: hal::iomuxc::gpio::GPIO_AD_B1_08<hal::iomuxc::Alt0>,
+    pub d4: hal::iomuxc::gpio::GPIO_AD_B0_09<hal::iomuxc::Alt0>,
+    pub d5: hal::iomuxc::gpio::GPIO_AD_B0_10<hal::iomuxc::Alt0>,
+    pub d6: hal::iomuxc::gpio::GPIO_AD_B1_02<hal::iomuxc::Alt0>,
+    pub d7: hal::iomuxc::gpio::GPIO_AD_B1_03<hal::iomuxc::Alt0>,
+    pub d8: hal::iomuxc::gpio::GPIO_AD_B0_03<hal::iomuxc::Alt0>,
+    pub d9: hal::iomuxc::gpio::GPIO_AD_B0_02<hal::iomuxc::Alt0>,
+    pub d10: hal::iomuxc::gpio::GPIO_SD_B0_01<hal::iomuxc::Alt0>,
+    pub d11: hal::iomuxc::gpio::GPIO_SD_B0_02<hal::iomuxc::Alt0>,
+    pub d12: hal::iomuxc::gpio::GPIO_SD_B0_03<hal::iomuxc::Alt0>,
+    pub d13: hal::iomuxc::gpio::GPIO_SD_B0_00<hal::iomuxc::Alt0>,
+    pub d14: hal::iomuxc::gpio::GPIO_AD_B1_01<hal::iomuxc::Alt0>,
+    pub d15: hal::iomuxc::gpio::GPIO_AD_B1_00<hal::iomuxc::Alt0>,
+    pub a0: hal::iomuxc::gpio::GPIO_AD_B1_10<hal::iomuxc::Alt0>,
+    pub a1: hal::iomuxc::gpio::GPIO_AD_B1_11<hal::iomuxc::Alt0>,
+    pub a2: hal::iomuxc::gpio::GPIO_AD_B1_04<hal::iomuxc::Alt0>,
+    pub a3: hal::iomuxc::gpio::GPIO_AD_B1_05<hal::iomuxc::Alt0>,
 }
 
 /// All peripherals available on the Teensy4
@@ -134,7 +134,7 @@ pub struct Peripherals {
     pub pwm3: hal::pwm::Unclocked<hal::pwm::module::_3>,
     /// PWM4 controller
     pub pwm4: hal::pwm::Unclocked<hal::pwm::module::_4>,
-    /// Teensy pins
+    /// Pins
     pub pins: Pins,
     /// Unclocked I2C peripherals
     pub i2c: hal::i2c::Unclocked,
@@ -158,7 +158,7 @@ impl Peripherals {
     pub fn take() -> Option<Self> {
         let p = hal::Peripherals::take()?;
         let mut cp = cortex_m::Peripherals::take()?;
-        Self::set_systick(&mut cp.SYST);
+        //Self::set_systick(&mut cp.SYST);
         Some(Peripherals::new(p))
     }
 
@@ -214,8 +214,17 @@ pub fn configure_led(
     gpr: &mut hal::iomuxc::GPR,
     pad: hal::iomuxc::gpio::GPIO_AD_B0_09<hal::iomuxc::Alt5>,
 ) -> LED {
+    use ral::modify_reg;
     use hal::gpio::IntoGpio;
-    pad.into_gpio().fast(gpr).output()
+    let pin = pad.into_gpio().output();
+    unsafe {
+        modify_reg!(ral::iomuxc, IOMUXC, SW_PAD_CTL_PAD_GPIO_AD_B0_09,
+                    PKE: PKE_1_Pull_Keeper_Enabled,
+                    SPEED: SPEED_2_medium_100MHz,
+                    DSE: DSE_6_R0_6
+        );
+    };
+    pin
 }
 
 /// Blocks for at least `millis` milliseconds

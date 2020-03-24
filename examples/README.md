@@ -18,7 +18,7 @@ To build a bin you need to use cargo objcopy
 For example to build a .bin for the led blinky example
 
 ```
-cargo objcopy --bin led_blinky --release -- -O binary led_blinky.bin
+cargo objcopy --bin led -- -O binary led.bin
 ```
 
 This bin can be copied to the mounted RT1060-EVK drive and will flash
