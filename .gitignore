@@ -6,3 +6,4 @@ target/
 itm.txt
 datasheets
 **/*.bin
+*.dump

@@ -81,7 +81,7 @@
 #![no_std]
 
 // Needed generated boot configuration data
-include!(concat!(env!("OUT_DIR"), "/fcb.rs"));
+//include!(concat!(env!("OUT_DIR"), "/fcb.rs"));
 
 pub use hal::ral::interrupt;
 pub use imxrt_rt  as rt;
@@ -156,19 +156,17 @@ const SYSTICK_EXT_FREQ: u32 = 100_000;
 impl Peripherals {
     /// Instantiate the system peripherals. This may only be called once!
     pub fn take() -> Option<Self> {
-        let p = hal::Peripherals::take()?;
         let mut cp = cortex_m::Peripherals::take()?;
-        //Self::set_systick(&mut cp.SYST);
+        cp.SCB.enable_icache();
+        cp.SCB.enable_dcache(&mut cp.CPUID);
+        cp.SYST.disable_counter();
+        cp.SYST.set_clock_source(cortex_m::peripheral::syst::SystClkSource::External);
+        cp.SYST.set_reload((SYSTICK_EXT_FREQ / 1000) - 1);
+        cp.SYST.clear_current();
+        cp.SYST.enable_counter();
+        cp.SYST.enable_interrupt();
+        let p = hal::Peripherals::take()?;
         Some(Peripherals::new(p))
-    }
-
-    fn set_systick(systick: &mut cortex_m::peripheral::SYST) {
-        systick.disable_counter();
-        systick.set_clock_source(cortex_m::peripheral::syst::SystClkSource::External);
-        systick.set_reload((SYSTICK_EXT_FREQ / 1000) - 1);
-        systick.clear_current();
-        systick.enable_counter();
-        systick.enable_interrupt();
     }
 
     fn new(p: hal::Peripherals) -> Peripherals {
@@ -212,18 +210,18 @@ impl Peripherals {
 
 pub fn configure_led(
     gpr: &mut hal::iomuxc::GPR,
-    pad: hal::iomuxc::gpio::GPIO_AD_B0_09<hal::iomuxc::Alt5>,
+    mut pad: hal::iomuxc::gpio::GPIO_AD_B0_09<hal::iomuxc::Alt5>,
 ) -> LED {
     use ral::modify_reg;
     use hal::gpio::IntoGpio;
-    let pin = pad.into_gpio().output();
-    unsafe {
-        modify_reg!(ral::iomuxc, IOMUXC, SW_PAD_CTL_PAD_GPIO_AD_B0_09,
-                    PKE: PKE_1_Pull_Keeper_Enabled,
-                    SPEED: SPEED_2_medium_100MHz,
-                    DSE: DSE_6_R0_6
-        );
-    };
+    use hal::iomuxc::pin_config::*;
+    const led_pin_cfg: PinConfig = PinConfig::with_none()
+        .set_pull_up(PullUp::Keeper)
+        .set_speed(Speed::Speed2_150MHz)
+        .set_drive_strength(DriveStrength::R0_DIV_6);
+
+    pad.configure(&led_pin_cfg);
+    let mut pin = pad.into_gpio().output();
     pin
 }
 
