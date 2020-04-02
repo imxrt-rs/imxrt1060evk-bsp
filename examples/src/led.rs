@@ -31,9 +31,7 @@ fn main() -> ! {
 //
     loop {
         led.toggle().unwrap();
-        for _n in 0..1000 {
-            core::sync::atomic::spin_loop_hint();
-        }
-
+        cortex_m::asm::wfi();
+        bsp::delay(250);
     }
 }
