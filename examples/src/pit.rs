@@ -8,13 +8,11 @@
 #![no_std]
 #![no_main]
 
-extern crate panic_halt;
+extern crate panic_semihosting;
+extern crate cortex_m_semihosting;
 
-use bsp::hal::pit;
-use bsp::interrupt;
-use bsp::rt::{entry};
+use imxrt1060evk_bsp::{self as bsp, rt::entry, rt::interrupt, hal::pit };
 use embedded_hal::{digital::v2::ToggleableOutputPin, timer::CountDown};
-use imxrt1060evk_bsp as bsp;
 
 static mut TIMER: Option<pit::PIT<pit::channel::_3>> = None;
 
@@ -75,9 +73,9 @@ fn main() -> ! {
             .as_mut()
             .unwrap()
             .start(core::time::Duration::from_millis(250));
-        cortex_m::peripheral::NVIC::unmask(interrupt::PIT);
+        cortex_m::peripheral::NVIC::unmask(bsp::ral::interrupt::PIT);
     }
-    let mut led = bsp::configure_led(&mut periphs.gpr, periphs.pins.d4);
+    let mut led = bsp::configure_led(&mut periphs.gpr, periphs.pins.d4.alt5());
     loop {
         led.toggle().unwrap();
         cortex_m::asm::wfi();

@@ -83,7 +83,6 @@
 // Needed generated boot configuration data
 //include!(concat!(env!("OUT_DIR"), "/fcb.rs"));
 
-pub use hal::ral::interrupt;
 pub use imxrt_rt  as rt;
 pub use imxrt_ral as ral;
 pub use imxrt_hal as hal;
