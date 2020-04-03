@@ -83,8 +83,8 @@
 // Needed generated boot configuration data
 //include!(concat!(env!("OUT_DIR"), "/fcb.rs"));
 
-pub use imxrt_rt  as rt;
-pub use imxrt_ral as ral;
+pub use hal::ral::interrupt;
+pub use imxrt_rt as rt;
 pub use imxrt_hal as hal;
 
 pub type LED = hal::gpio::GPIO1IO09<hal::gpio::GPIO1, hal::gpio::Output>;
@@ -211,7 +211,6 @@ pub fn configure_led(
     gpr: &mut hal::iomuxc::GPR,
     mut pad: hal::iomuxc::gpio::GPIO_AD_B0_09<hal::iomuxc::Alt5>,
 ) -> LED {
-    use ral::modify_reg;
     use hal::gpio::IntoGpio;
     use hal::iomuxc::pin_config::*;
     const led_pin_cfg: PinConfig = PinConfig::with_none()

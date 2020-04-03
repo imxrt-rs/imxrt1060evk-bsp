@@ -13,8 +13,7 @@ Part of the imxrt-rs project.
 [dependencies]
 cortex-m = "0.6.1"
 imxrt-rt = { version = "0.1.0", path = "../imxrt-rt", features = ["device"] }
-imxrt-ral = { version = "0.1.0" , features = ["imxrt1062", "rt"], path = "../imxrt/imxrt-ral" }
-imxrt-hal = { version = "0.1.0" , features = ["imxrt1062"], path = "../imxrt/imxrt-hal" }
+imxrt-hal = { version = "0.1.0" , features = ["imxrt1062", "rt"], path = "../imxrt/imxrt-hal" }
 log = "0.4.8"
 
 [build-dependencies]

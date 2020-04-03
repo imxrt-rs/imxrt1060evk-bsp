@@ -11,7 +11,10 @@
 extern crate panic_semihosting;
 extern crate cortex_m_semihosting;
 
-use imxrt1060evk_bsp::{self as bsp, rt::entry, rt::interrupt, hal::pit };
+use imxrt1060evk_bsp as bsp;
+use bsp::hal::pit;
+use bsp::interrupt;
+use bsp::rt::{entry, interrupt};
 use embedded_hal::{digital::v2::ToggleableOutputPin, timer::CountDown};
 
 static mut TIMER: Option<pit::PIT<pit::channel::_3>> = None;
@@ -34,7 +37,7 @@ fn main() -> ! {
     // with the WFI in the loop, maybe...? If I instead
     // busy-loop on an atomic U32, I don't crash in debug
     // builds.
-    //bsp::delay(25);
+    bsp::delay(25);
     let (_, ipg_hz) = periphs.ccm.pll1.set_arm_clock(
         bsp::hal::ccm::PLL1::ARM_HZ,
         &mut periphs.ccm.handle,
@@ -73,7 +76,7 @@ fn main() -> ! {
             .as_mut()
             .unwrap()
             .start(core::time::Duration::from_millis(250));
-        cortex_m::peripheral::NVIC::unmask(bsp::ral::interrupt::PIT);
+        cortex_m::peripheral::NVIC::unmask(interrupt::PIT);
     }
     let mut led = bsp::configure_led(&mut periphs.gpr, periphs.pins.d4.alt5());
     loop {
