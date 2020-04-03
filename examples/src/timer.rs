@@ -3,9 +3,9 @@
 //!
 //! Success criteria: the chained timer measures 500ms, and
 //! timer 2 measures the 200us delay implemented by timer 3.
-//! The times are reported over UART. While in the spin loops,
-//! the LED is enabled, so it should be possible to measure
-//! the delay by watching the LED.
+//! The times are reported over UART1 to the builtin opensda.
+//! While in the spin loops, the LED is enabled, so it should
+//! be possible to measure the delay by watching the LED.
 
 #![no_std]
 #![no_main]
@@ -37,7 +37,7 @@ fn main() -> ! {
 
     let (timer0, timer1, mut timer2, mut timer3) = periphs.pit.clock(cfg);
     let mut timer = pit::chain(timer0, timer1);
-    let mut led: bsp::LED = bsp::configure_led(&mut periphs.gpr, periphs.pins.d4);
+    let mut led: bsp::LED = bsp::configure_led(&mut periphs.gpr, periphs.pins.d4.alt5());
     loop {
         let (_, period) = timer.time(|| {
             led.set_high().unwrap();

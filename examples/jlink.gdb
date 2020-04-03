@@ -34,6 +34,10 @@ break main
 # # enable ITM port 0
 #monitor itm port 0 on
 
+# always reset the chip to start from a clean slate
+monitor reset 2
+
+# load elf file
 load
 
 # start the process but immediately halt the processor

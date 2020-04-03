@@ -8,14 +8,13 @@
 #![no_std]
 #![no_main]
 
-extern crate panic_semihosting;
-extern crate cortex_m_semihosting;
+extern crate panic_halt;
 
-use imxrt1060evk_bsp as bsp;
 use bsp::hal::pit;
 use bsp::interrupt;
 use bsp::rt::{entry, interrupt};
 use embedded_hal::{digital::v2::ToggleableOutputPin, timer::CountDown};
+use imxrt1060evk_bsp as bsp;
 
 static mut TIMER: Option<pit::PIT<pit::channel::_3>> = None;
 

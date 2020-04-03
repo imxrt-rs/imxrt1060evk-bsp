@@ -38,32 +38,40 @@
 //!
 //! | Pin   | Pad ID   |  Alt0    |  Alt1        |  Alt2        |  Alt3     |  Alt4        |  Alt5            |  Alt6        |  Alt7   |  Alt8   |  Alt9   |
 //! | ----- | -------- | -------- | ------------ | ------------ | --------- | ------------ | ---------------- | ------------ | ------- | ------- | ------- |
-//! |  D0   |`AD_B1_07`|          |              |  `UART6_RX`  |           |`FlexPWM1_1_X`|                  |              |         |         |         |
-//! |  D1   |`AD_B1_06`|          |              |  `UART6_TX`  |           |`FlexPWM1_0_X`|                  |              |         |         |         |
-//! |  D2   |`AD_B0_11`|          |`FlexPWM4_2_A`|              |           |              |                  |              |         |         |         |
-//! |  D3   |`AD_B1_08`|          |`FlexPWM4_2_B`|              |           |              |                  |              |         |         |         |
-//! |  D4   |`AD_B0_09`|          |`FlexPWM2_0_A`|              |           |              |                  |              |         |         |         |
-//! |  D5   |`AD_B0_10`|          |`FlexPWM2_1_A`|              |           |              |                  |              |         |         |         |
-//! |  D6   |`AD_B1_02`|          |              |`FlexPWM2_2_A`|           |              |                  |              |         |         |         |
-//! |  D7   |`AD_B1_03`|          |              |  `UART4_RX`  |           |              |                  |`FlexPWM1_3_B`|         |         |         |
-//! |  D8   |`AD_B0_03`|          |              |  `UART4_TX`  |           |              |                  |`FlexPWM1_3_A`|         |         |         |
-//! |  D9   |`AD_B0_02`|          |              |`FlexPWM2_2_B`|           |              |                  |              |         |         |         |
-//! |  D10  |`SD_B0_01`|          |              |              |`SPI4_PCS0`|              |                  |              |         |         |         |
-//! |  D11  |`SD_B0_02`|          |              |              |`SPI4_SDO` |              |                  |              |         |         |         |
-//! |  D12  |`SD_B0_03`|          |              |              |`SPI4_SDI` |              |                  |              |         |         |         |
-//! |  D13  |`SD_B0_00`|          |              |              |`SPI4_SCK` |              |`GPIO2_3`         |              |         |         |         |
-//! |  D14  |`AD_B1_01`|          |              |  `UART2_TX`  |           |              |                  |              |         |         |         |
-//! |  D15  |`AD_B1_00`|          |              |  `UART2_RX`  |           |              |                  |              |         |         |         |
-//! |  A0   |`AD_B1_10`|          |`I2C3_SCL`    |  `UART3_RX`  |           |              |                  |              |         |         |         |
-//! |  A1   |`AD_B1_11`|          |`I2C3_SDA`    |  `UART3_TX`  |           |              |                  |              |         |         |         |
-//! |  A2   |`AD_B1_04`|          |              |              |`I2C1_SDA` |              |                  |              |         |         |         |
-//! |  A3   |`AD_B1_05`|          |              |  `UART2_CTS` |`I2C1_SCL` |              |                  |              |         |         |         |
-//! |  A4   |`AD_B1_01`|          |              |  `UART8_TX`  |           |              |                  |              |         |         |         |
-//! |  A5   |`AD_B1_00`|          |              |  `UART8_TX`  |           |              |                  |              |         |         |         |
+//! |  D0   |`AD_B1_07`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D1   |`AD_B1_06`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D2   |`AD_B0_11`|          |`FlexPWM1_3_B`|              |           |              |                  |              |         |         |         |
+//! |  D3   |`AD_B1_08`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D4   |`AD_B0_09`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D5   |`AD_B0_10`|          |`FlexPWM1_3_A`|              |           |              |                  |              |         |         |         |
+//! |  D6   |`AD_B1_02`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D7   |`AD_B1_03`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D8   |`AD_B0_03`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D9   |`AD_B0_02`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D10  |`SD_B0_01`|          |`FlexPWM1_0_B`|              |           |              |                  |              |         |         |         |
+//! |  D11  |`SD_B0_02`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D12  |`SD_B0_03`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D13  |`SD_B0_00`|          |`FlexPWM1_0_A`|              |           |              |`GPIO2_3`         |              |         |         |         |
+//! |  D14  |`AD_B1_01`|          |              |              |           |              |                  |              |         |         |         |
+//! |  D15  |`AD_B1_00`|          |              |              |           |              |                  |              |         |         |         |
+//! |  A0   |`AD_B1_10`|          |              |              |           |              |                  |              |         |         |         |
+//! |  A1   |`AD_B1_11`|          |              |              |           |              |                  |              |         |         |         |
+//! |  A2   |`AD_B1_04`|          |              |              |           |              |                  |              |         |         |         |
+//! |  A3   |`AD_B1_05`|          |              |              |           |              |                  |              |         |         |         |
+//! |  A4   |`AD_B1_01`|          |              |              |           |              |                  |              |         |         |         |
+//! |  A5   |`AD_B1_00`|          |              |              |           |              |                  |              |         |         |         |
 //!
 //!
-//! ## User LED
-//! GPIO_AD_B0_09
+//! ## UART1 - connected to OpenSDA debugger
+//! | Pin      | Pad ID   |  Alt2        |
+//! | -----    | -------- | ------------ |
+//! |  UART_TX |`AD_B0_12`|  `UART1_TX`  |
+//! |  UART_RX |`AD_B0_13`|  `UART1_RX`  |
+//!
+//! ## LED - Connected to Arduino Header and on board LED
+//! | Pin   | Pad ID   | Alt5  |
+//! | ----- | -------- | ----- |
+//! | D4    |`AD_B0_09`|`GPIO` |
 //!
 //! ## Examples
 //!
@@ -115,6 +123,9 @@ pub struct Pins {
     pub a1: hal::iomuxc::gpio::GPIO_AD_B1_11<hal::iomuxc::Alt5>,
     pub a2: hal::iomuxc::gpio::GPIO_AD_B1_04<hal::iomuxc::Alt5>,
     pub a3: hal::iomuxc::gpio::GPIO_AD_B1_05<hal::iomuxc::Alt5>,
+
+    pub uart_tx: hal::iomuxc::gpio::GPIO_AD_B0_12<hal::iomuxc::Alt2>,
+    pub uart_rx: hal::iomuxc::gpio::GPIO_AD_B0_13<hal::iomuxc::Alt2>,
 }
 
 /// All peripherals available on the Teensy4
@@ -198,6 +209,8 @@ impl Peripherals {
                 a1: p.iomuxc.gpio_ad_b1_11,
                 a2: p.iomuxc.gpio_ad_b1_04,
                 a3: p.iomuxc.gpio_ad_b1_05,
+                uart_tx: p.iomuxc.gpio_ad_b0_12.alt2(),
+                uart_rx: p.iomuxc.gpio_ad_b0_13.alt2(),
             },
             i2c: p.i2c,
             spi: p.spi,

@@ -8,12 +8,17 @@ edition = "2018"
 
 [dependencies]
 cortex-m = "0.6.1"
-cortex-m-semihosting = {version = "0.3.5", features = ["jlink-quirks"] }
 embedded-hal = "0.2.3"
 log = { version = "0.4.8", features = ["release_max_level_info"] }
 nb = "0.1.2"
-panic-semihosting = "0.5.3"
+panic-halt = "0.2.0"
 imxrt1060evk-bsp = { version = "0.1.0", path = ".." }
+
+[[bin]]
+name = "i2c"
+path = "src/i2c.rs"
+test = false
+bench = false
 
 [[bin]]
 name = "led"
@@ -28,10 +33,35 @@ test = false
 bench = false
 
 [[bin]]
+name = "pwm"
+path = "src/pwm.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "spi"
+path = "src/spi.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "systick"
+path = "src/systick.rs"
+test = false
+bench = false
+
+[[bin]]
 name = "timer"
 path = "src/timer.rs"
 test = false
 bench = false
+
+[[bin]]
+name = "uart"
+path = "src/uart.rs"
+test = false
+bench = false
+
 
 [profile.release]
 codegen-units = 1 # better optimizations
