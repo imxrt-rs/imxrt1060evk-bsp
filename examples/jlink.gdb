@@ -40,9 +40,10 @@ monitor reset 2
 # load elf file
 load
 
-set language c
 # Set the stack pointer to the value at 0x0
+set language c
 set $sp = *0x0
+set language rust
 
 # start the process but immediately halt the processor
 stepi
