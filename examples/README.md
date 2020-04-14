@@ -1,31 +1,36 @@
 # EVK1060 Examples
 
-**Note this is in progress and does not fully work yet, there is still a linker script
-issue as the program does not copy itself to ITCM as expected**
-
-
 All examples can be built with a single command
 
 ```sh
 cargo build 
 ```
 
-However this does not necessarily build a .bin you can easily upload using
-the built on mass storage interface which is typically mounted as RT1060-EVK.
+Running them requires a JLinkGDBServer running and connected to the 1060EVK
+rather than the built in opensda debugger. The examples run directly from RAM
+and are not written to flash. In the future the https://github.com/imxrt-rs/imxrt-rt-gen
+along with https://github.com/imxrt-rs/imxrt-boot-gen will provide the necessary
+linker scripts, Reset handler, and flash configuration array required to run
+images from flash, setting up SDRAM, ITCM/DTCM, and perhaps XIP related features.
 
-To build a bin you need to use cargo objcopy
 
-For example to build a .bin for the led blinky example
+To run an example
+
+Start the JLinkGDBServer, a script is here to help starting it with
+the right arguments.
 
 ```
-cargo objcopy --bin led -- -O binary led.bin
+./jlink_gdb.sh
 ```
 
-This bin can be copied to the mounted RT1060-EVK drive and will flash
-the on board external spi. A hardware reset might be required still.
+Followed by
 
-Debugging so far is easiest to do using an external JTAG debugger like
-a jlink. To do so remove the jumpers J47 and J48.
+```
+cargo run --bin pit
+```
 
-Doing so allows loading and debugging the built elf or bin files using something
-like Ozone which can provide a very nice overview of all registers on the device.
+Note the --bin arg may be any of the examples in this directory.
+
+On a linux machine with arm gdb installed should leave you at the Reset
+handler waiting for input. If this does not happen please file an issue
+with steps done so this README may be improved.

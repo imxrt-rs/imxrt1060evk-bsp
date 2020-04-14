@@ -2,8 +2,8 @@
 
 Provides the needed setup to create applications on the 1060 evaluation kit.
 
-**Note these examples do not run yet for various reasons. Currently 
-the clocking of GPIO isn't setup for blinky**
+Most of the examples run now though require a segger jlink to run them. The i2c
+and spi examples have not yet been fleshed out and tested yet.
 
 ## Examples
 
