@@ -1,6 +1,6 @@
 [package]
 name = "imxrt1060evk-bsp"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Tom Burdick <tom.burdick@electromatic.us>", "Ian McIntyre <ianpmcintyre@gmail.com>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
@@ -11,13 +11,14 @@ Part of the imxrt-rs project.
 """
 
 [dependencies]
-cortex-m = "0.6.1"
-imxrt-rt = { version = "0.1.0", path = "../imxrt-rt", features = ["device"] }
-imxrt-hal = { version = "0.2.1" , features = ["imxrt1062", "rt"] }
+cortex-m = "0.6.2"
+cortex-m-rt = { version = "0.6.12", features = ["device"] }
+#imxrt-rt = { version = "0.1.0", features = ["device"] }
+imxrt-hal = { version = "0.4.2" , features = ["imxrt1062", "rt"] }
 log = "0.4.8"
 
 [build-dependencies]
-imxrt-boot-gen = { version = "0.1.0", path = "../imxrt-boot-gen", features = ["imxrt1062"] }
+imxrt-boot-gen = { version = "0.1.0", features = ["imxrt1062"] }
 
 [lib]
 bench = false

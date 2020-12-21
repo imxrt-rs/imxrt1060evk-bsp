@@ -1,0 +1,26 @@
+[package]
+name = "imxrt1060evk-pins"
+version = "0.1.0"
+authors = ["Tom Burdick <tom.burdick@electromatic.us>"]
+edition = "2018"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/imxrt-rs/imxrt1060evk-bsp"
+description = """
+Helpers for configuring and using a MIMXRT1060-EVK board pins.
+Part of the imxrt-rs project.
+"""
+categories = [
+    "embedded",
+    "hardware-support",
+    "no-std",
+]
+keywords = [
+    "arm",
+    "cortex-m",
+    "imxrt1060",
+]
+
+[dependencies.imxrt-iomuxc]
+version = "0.1.1"
+features = ["imxrt106x"]

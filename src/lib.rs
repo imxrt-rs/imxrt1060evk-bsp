@@ -18,7 +18,7 @@
 //!
 //! The BSP re-exports the following:
 //!
-//! - the `imxrt-rt` crate, as `rt`
+//! - the `cortex-m-rt` crate, as `rt`
 //! - the `imxrt-ral` crate, as `ral`
 //! - the `imxrt-hal` crate, as `hal`
 //!
@@ -91,13 +91,6 @@
 // Needed generated boot configuration data
 //include!(concat!(env!("OUT_DIR"), "/fcb.rs"));
 
-pub use hal::ral::interrupt;
-pub use imxrt_rt as rt;
-pub use imxrt_hal as hal;
-
-pub type LED = hal::gpio::GPIO1IO09<hal::gpio::GPIO1, hal::gpio::Output>;
-
-pub use hal::ccm::CCM;
 
 /// Arduino pins that do not yet have a function
 ///
