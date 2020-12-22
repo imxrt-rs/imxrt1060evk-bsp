@@ -1,18 +1,18 @@
 [package]
 name = "imxrt1060evk-examples"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Tom Burdick <thomas.burdick@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cortex-m = "0.6.1"
+cortex-m = "0.6.2"
 embedded-hal = "0.2.3"
 log = { version = "0.4.8", features = ["release_max_level_info"] }
 nb = "0.1.2"
 panic-halt = "0.2.0"
-imxrt1060evk-bsp = { version = "0.1.0", path = ".." }
+imxrt1060evk-bsp = { version = "0.2.0", path = ".." }
 
 [[bin]]
 name = "i2c"

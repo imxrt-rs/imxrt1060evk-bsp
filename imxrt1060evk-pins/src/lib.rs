@@ -50,6 +50,8 @@
 //!
 //! Not every pin is connected to the SoC.
 
+#![no_std]
+
 mod iomuxc {
     pub use imxrt_iomuxc::imxrt106x::*;
     pub use imxrt_iomuxc::prelude::*;
