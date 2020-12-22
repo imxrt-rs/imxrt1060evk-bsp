@@ -12,13 +12,55 @@ Part of the imxrt-rs project.
 
 [dependencies]
 cortex-m = "0.6.2"
-cortex-m-rt = { version = "0.6.12", features = ["device"] }
+cortex-m-rt = { version = "0.6.12", features = ["device"], optional = true }
 #imxrt-rt = { version = "0.1.0", features = ["device"] }
 imxrt-hal = { version = "0.4.2" , features = ["imxrt1062", "rt"] }
 log = "0.4.8"
 
+[dependencies.imxrt1060evk-pins]
+version = "0.1"
+path = "imxrt1060evk-pins"
+
+# Tied to "systick" feature, since
+# SysTick implements a blocking delay trait
+[dependencies.embedded-hal]
+version = "0.2.4"
+optional = true
+
 [build-dependencies]
 imxrt-boot-gen = { version = "0.1.0", features = ["imxrt1062"] }
+
+[workspace]
+members = [
+    "imxrt1060evk-pins",
+]
+
+[features]
+# Default features established for prototype development
+default = ["systick"]
+# Include a definition of the SysTick exception handler. This enables
+# a simple delay() spinloop that waits for the timer to elapse.
+#
+# NOTE: This feature is incompatible with the `rtic` crate as `rtic`
+# provides its own `SysTick` definition.
+systick = ["embedded-hal"]
+# Provides the `Peripherals::steal` constructor required by `rtic`.
+#
+# NOTE: When using this feature along with the `rtic` crate the
+# default features must first be disabled in order to avoid a
+# duplicate definition of `SysTick`.
+rtic = ["imxrt-hal/rtic"]
+# Enables cortex-m-rt runtime support
+rt = ["cortex-m-rt", "imxrt-hal/rt"]
+
+# Don't optimize build dependencies, like proc macros.
+# Helps with build times.
+[profile.release.build-override]
+opt-level = 0
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
