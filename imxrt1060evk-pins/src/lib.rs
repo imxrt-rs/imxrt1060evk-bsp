@@ -113,7 +113,7 @@ pub type ErasedPins = [ErasedPad; 20];
 
 /// MIMXRT1060-EVK pins
 ///
-/// See [`into_pins`](fn.into_pins.html) to safely constrain the processor's pads, and acquire
+/// See [`from_pads`](fn.from_pads.html) to safely constrain the processor's pads, and acquire
 /// pins. Or, use [`new`](#method.new) to unsafely create pins.
 pub struct Pins {
     /// Arduino D0
@@ -163,7 +163,7 @@ pub struct Pins {
 }
 
 /// Constrain the processor pads to the Teensy 4.0 pins
-pub const fn into_pins(iomuxc: crate::iomuxc::Pads) -> Pins {
+pub const fn from_pads(iomuxc: crate::iomuxc::Pads) -> Pins {
     Pins {
         d0: iomuxc.ad_b1.p07,
         d1: iomuxc.ad_b1.p06,
@@ -198,12 +198,12 @@ impl Pins {
     ///
     /// Caller must ensure that the pins are not aliased elsewhere in
     /// the program. This could include
-    ///
+
     /// - an existing handle to the `imxrt-iomuxc` pads,
     /// - another instance of `Pins` that was safely acquired
-    ///   using [`into_pins`](fn.into_pins.html).
+    ///   using [`from_pads`](fn.from_pads.html).
     pub const unsafe fn new() -> Self {
-        into_pins(crate::iomuxc::Pads::new())
+        from_pads(crate::iomuxc::Pads::new())
     }
 
     /// Erase the types of all pins

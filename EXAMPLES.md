@@ -1,4 +1,4 @@
-# EVK1060 Examples
+# MIMXRT1060EVK Examples
 
 All examples can be built with a single command
 

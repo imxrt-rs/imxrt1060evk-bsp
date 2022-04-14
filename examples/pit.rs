@@ -12,8 +12,8 @@ extern crate panic_halt;
 
 use bsp::hal::pit;
 use bsp::interrupt;
-use bsp::rt::{entry, interrupt};
-use embedded_hal::{digital::v2::ToggleableOutputPin, timer::CountDown};
+use cortex_m_rt::{entry, interrupt};
+use embedded_hal::timer::CountDown;
 use imxrt1060evk_bsp as bsp;
 
 static mut TIMER: Option<pit::PIT<pit::channel::_3>> = None;
@@ -30,13 +30,7 @@ unsafe fn PIT() {
 #[entry]
 fn main() -> ! {
     let mut periphs = bsp::Peripherals::take().unwrap();
-    // When flashing a debug build, I'm finding that
-    // the chip is likely to crash if we don't put this
-    // delay here. I've narrowed it down to something
-    // with the WFI in the loop, maybe...? If I instead
-    // busy-loop on an atomic U32, I don't crash in debug
-    // builds.
-    bsp::delay(25);
+    let pins = bsp::pins::from_pads(periphs.iomuxc);
     let (_, ipg_hz) = periphs.ccm.pll1.set_arm_clock(
         bsp::hal::ccm::PLL1::ARM_HZ,
         &mut periphs.ccm.handle,
@@ -61,13 +55,13 @@ fn main() -> ! {
         ],
     );
 
-    let cfg = periphs.ccm.perclk.configure(
+    let mut cfg = periphs.ccm.perclk.configure(
         &mut periphs.ccm.handle,
         bsp::hal::ccm::perclk::PODF::DIVIDE_3,
         bsp::hal::ccm::perclk::CLKSEL::IPG(ipg_hz),
     );
 
-    let (_, _, _, mut timer) = periphs.pit.clock(cfg);
+    let (_, _, _, mut timer) = periphs.pit.clock(&mut cfg);
     timer.set_interrupt_enable(true);
     unsafe {
         TIMER = Some(timer);
@@ -77,9 +71,9 @@ fn main() -> ! {
             .start(core::time::Duration::from_millis(250));
         cortex_m::peripheral::NVIC::unmask(interrupt::PIT);
     }
-    let mut led = bsp::configure_led(&mut periphs.gpr, periphs.pins.d4.alt5());
+    let mut led = bsp::configure_led(pins.d4);
     loop {
-        led.toggle().unwrap();
+        led.toggle();
         cortex_m::asm::wfi();
     }
 }

@@ -64,19 +64,23 @@ pub use imxrt_hal as hal;
 /// The LED
 ///
 /// See [`configure_led`](fn.configure_led.html) to prepare the LED.
-pub type LED = hal::gpio::GPIO<pins::D4, hal::gpio::Output>;
+pub type Led = hal::gpio::GPIO<pins::D4, hal::gpio::Output>;
 
 /// Configure the board's LED
 ///
 /// Returns a GPIO that's physically tied to the LED. Use the returned handle
 /// to drive the LED.
-pub fn configure_led(mut pin: pins::D4) -> LED {
+pub fn configure_led(mut pin: pins::D4) -> Led {
     use hal::iomuxc::*;
+
     const LED_PIN_CFG: Config = Config::modify()
         .set_pull_keep_select(PullKeepSelect::Keeper)
         .set_pull_keep(PullKeep::Disabled)
         .set_speed(Speed::Fast)
         .set_drive_strength(DriveStrength::R0_6);
+
     configure(&mut pin, LED_PIN_CFG);
-    hal::gpio::GPIO::new(pin).output()
+
+    let led = hal::gpio::GPIO::new(pin);
+    led.output()
 }
